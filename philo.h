@@ -6,42 +6,77 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:41:37 by ele-borg          #+#    #+#             */
-/*   Updated: 2024/11/16 22:19:44 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/20 16:54:39 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef PHILO_H
+#ifndef PHILO_H
 # define PHILO_H
 
-#include <stdio.h>
-#include <pthread.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <sys/time.h>
-#include <limits.h>
+# include <limits.h>
+# include <pthread.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/time.h>
+# include <unistd.h>
+
+# define mutex_t pthread_mutex_t
+
+typedef struct s_table	t_table;
 
 typedef struct s_philo
 {
-	int			name;
-	pthread_t	id;
-	int			*r_fork;
-	int			*l_fork;
-}	t_philo;
+	int					name;
+	pthread_t			id;
+	mutex_t				*fst_fork;
+	mutex_t				*scd_fork;
+	t_table				*table;
+}						t_philo;
 
 typedef struct s_table
 {
-	int				nmb_of_philo;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				max_nmb_of_meals;
-	struct timeval	start_time;
-	int				*forks;
-	t_philo			*philos;
-}	t_table;
+	long				nmb_of_philo;
+	long				time_to_die;
+	long				time_to_eat;
+	long				time_to_sleep;
+	int					max_nmb_of_meals;
+	long				start_time;
+	mutex_t				*forks;
+	t_philo				*philos;
+	mutex_t				safe_write;
+}						t_table;
 
-int		ft_atoi(char *s);
-int		parsing(char **av, t_table *dinner);
-t_table	init_arg(char **av);
+// enum e_opcode
+// {
+// 	LOCK,
+// 	UNLOCK,
+// 	INIT,
+// 	DESTROY,
+// 	CREATE,
+// 	JOIN,
+// 	DETACH,
+// }	t_opcode;
 
-# endif
+//init
+int			init_forks(t_table *dinner);
+int			init_table(t_table *dinner);
+int			init_mutex(t_table *dinner);
+
+//main
+void		*routine(void *philo);
+
+//parsing
+long		ft_atol(char *s);
+int			parsing(char **av, t_table *dinner);
+t_table		init_arg(char **av);
+
+//simulation_dinner
+int			init_dinner(t_table *dinner);
+
+//utils
+void		exit_error(char *s, t_table *dinner);
+void		free_all(t_table *dinner);
+long		get_time_in_ms(struct timeval time);
+
+#endif

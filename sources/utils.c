@@ -1,0 +1,71 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/20 15:06:49 by ele-borg          #+#    #+#             */
+/*   Updated: 2025/02/20 15:59:05 by ele-borg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../philo.h"
+
+void	free_all(t_table *dinner)
+{
+	int	i;
+
+	i = 0;
+	while (i < dinner->nmb_of_philo)
+	{
+		pthread_mutex_destroy(&dinner->forks[i]);
+		i++;
+	}
+	pthread_mutex_destroy(&dinner->safe_write);
+	free(dinner->forks);
+	free(dinner->philos);
+}
+
+void exit_error(char *s, t_table *dinner)
+{
+	int i;
+
+	i = 0;
+	printf("%s\n", s);
+	while (i < dinner->nmb_of_philo)
+	{
+		pthread_mutex_destroy(&dinner->forks[i]);
+		i++;
+	}
+	free(dinner->forks);
+	free(dinner->philos);
+	pthread_mutex_destroy(&dinner->safe_write);
+}
+
+long	get_time_in_ms(struct timeval time)
+{
+	long	res;
+
+	res = time.tv_sec * 1000 + time.tv_usec / 1000;
+	return (res);
+}
+
+void	precise_usleep(long usec)
+{
+	struct timeval	time;
+	long			current;
+	long			begin;
+
+	gettimeofday(&time, NULL);
+	begin = time.tv_sec * 1000000 + time.tv_usec;
+	while (1)
+	{
+		gettimeofday(&time, NULL);
+		current = time.tv_sec * 1000000 + time.tv_usec;
+		if (current - begin < usec)
+			usleep(200);
+		else
+			break ;
+	}
+}
