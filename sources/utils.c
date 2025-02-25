@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 15:06:49 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/20 15:59:05 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:29:33 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	free_all(t_table *dinner)
 		i++;
 	}
 	pthread_mutex_destroy(&dinner->safe_write);
+	pthread_mutex_destroy(&dinner->meal);
+	pthread_mutex_destroy(&dinner->begin);
 	free(dinner->forks);
 	free(dinner->philos);
 }
@@ -58,11 +60,11 @@ void	precise_usleep(long usec)
 	long			begin;
 
 	gettimeofday(&time, NULL);
-	begin = time.tv_sec * 1000000 + time.tv_usec;
+	begin = time.tv_sec * 1000 + time.tv_usec / 1000;
 	while (1)
 	{
 		gettimeofday(&time, NULL);
-		current = time.tv_sec * 1000000 + time.tv_usec;
+		current = time.tv_sec * 1000 + time.tv_usec / 1000;
 		if (current - begin < usec)
 			usleep(200);
 		else

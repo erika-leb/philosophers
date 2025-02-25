@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 19:19:55 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/20 16:55:15 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:54:39 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,8 @@ t_table	init_arg(char **av)
 		dinner.max_nmb_of_meals = -1;
 	dinner.forks = NULL;
 	dinner.philos = NULL;
+	dinner.end_simulation = false;
+	dinner.start = false;
+	// printf("simul = %d\n", dinner.end_simulation);
 	return (dinner);
 }

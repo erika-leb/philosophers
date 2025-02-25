@@ -6,7 +6,7 @@
 #    By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2025/02/20 16:38:25 by ele-borg         ###   ########.fr        #
+#    Updated: 2025/02/25 11:15:16 by ele-borg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,12 +16,14 @@ SRC_DIR = sources
 OBJ_DIR = objets
 
 SRC_FILES = ${SRC_DIR}main.c \
+			${SRC_DIR}getter_setter.c \
 			${SRC_DIR}init.c \
 			${SRC_DIR}parsing.c \
 			${SRC_DIR}simulation_dinner.c \
 			${SRC_DIR}utils.c \
 
 OBJ_FILES =	$(OBJ_DIR)/main.o \
+			$(OBJ_DIR)/getter_setter.o \
 			$(OBJ_DIR)/init.o \
 			$(OBJ_DIR)/parsing.o \
 			$(OBJ_DIR)/simulation_dinner.o \
