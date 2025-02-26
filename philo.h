@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:41:37 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/26 14:49:09 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/26 20:03:33 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ typedef struct s_table
 	pthread_t		monitor;
 	bool			end_simulation;
 	bool			start;
+	bool			flag_write;
+	mutex_t			flag;
 	mutex_t			begin;  //faut il commencer la simulation ?
 	mutex_t			simulation_status; // faut il terminer le diner ou non ?
 	mutex_t			meal; //enregistrement du dernier repas
@@ -60,17 +62,11 @@ typedef struct s_table
 	mutex_t			full_philos;
 }					t_table;
 
-
-//getter_setter
-void		bool_set(mutex_t *mutex, bool *to_set, bool value);
-bool		bool_get(mutex_t *mutex, bool *to_get);
-void		long_set(mutex_t *mutex, long *to_set, long value);
-long		long_get(mutex_t *mutex, long *to_get);
-
 //init
 int			init_forks(t_table *dinner);
 int			init_table(t_table *dinner);
 int			init_mutex(t_table *dinner);
+int			init_dinner(t_table *dinner);
 
 //main
 void		*routine(void *philo);
@@ -81,7 +77,15 @@ int			parsing(char **av, t_table *dinner);
 t_table		init_arg(char **av);
 
 //simulation_dinner
-int			init_dinner(t_table *dinner);
+void		*control(void *dinner);
+void		*routine(void *philo);
+
+//synchronisation
+void		bool_set(mutex_t *mutex, bool *to_set, bool value);
+bool		bool_get(mutex_t *mutex, bool *to_get);
+void		long_set(mutex_t *mutex, long *to_set, long value);
+long		long_get(mutex_t *mutex, long *to_get);
+void		safe_write(t_philo *philo, int id, char *s);
 
 //utils
 void		exit_error(char *s, t_table *dinner);

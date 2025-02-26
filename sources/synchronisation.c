@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   getter_setter.c                                    :+:      :+:    :+:   */
+/*   synchronisation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 11:15:37 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/26 12:26:32 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/26 20:03:16 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,22 @@ long	long_get(mutex_t *mutex, long *to_get)
 	res = *to_get;
 	pthread_mutex_unlock(mutex);
 	return (res);
+}
+
+void	safe_write(t_philo *philo, int id, char *s)
+{
+	struct timeval	time;
+	long			current;
+
+	if (bool_get(&philo->table->flag, &philo->table->flag_write) == false)
+		return ;
+	pthread_mutex_lock(&philo->table->safe_write);
+	gettimeofday(&time, NULL);
+	current = get_time_in_ms(time);
+	printf("%ld ", current - long_get(&philo->table->time, &philo->table->start_time));
+	printf("%d ", id);
+	printf("%s\n", s);
+	if (strcmp(s, "has died") == 0)
+		bool_set(&philo->table->flag, &philo->table->flag_write, false);
+	pthread_mutex_unlock(&philo->table->safe_write);
 }

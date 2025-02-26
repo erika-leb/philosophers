@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 19:19:55 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/26 12:24:50 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:36:53 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,11 @@ long	ft_atol(char *s)
 	}
 	return (r);
 }
+
 int	parsing(char **av, t_table *dinner)
 {
 	dinner->nmb_of_philo = ft_atol(av[1]);
-	if (dinner->nmb_of_philo == -1 || dinner->nmb_of_philo == 0) //voir dans ce cas si on affiche un message ou non pour cas ou nb = 0 (autre cas deja gere)
+	if (dinner->nmb_of_philo == -1 || dinner->nmb_of_philo == 0)
 		return (-1);
 	dinner->time_to_die = ft_atol(av[2]);
 	if (dinner->time_to_die == -1)
@@ -83,6 +84,7 @@ t_table	init_arg(char **av)
 	dinner.philos = NULL;
 	dinner.end_simulation = false;
 	dinner.start = false;
+	dinner.flag_write = true;
 	// printf("simul = %d\n", dinner.end_simulation);
 	return (dinner);
 }
