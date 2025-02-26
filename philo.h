@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:41:37 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/25 15:38:51 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:23:29 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <unistd.h>
+# include <string.h>
 
 # define mutex_t pthread_mutex_t
 
@@ -42,7 +43,7 @@ typedef struct s_table
 	long			time_to_die;
 	long			time_to_eat;
 	long			time_to_sleep;
-	int				max_nmb_of_meals;
+	int				max_nmb_of_meals; // -1 si rien
 	long			start_time;
 	mutex_t			*forks;
 	t_philo			*philos;
@@ -52,8 +53,8 @@ typedef struct s_table
 	bool			start;
 	mutex_t			begin;  //faut il commencer la simulation ?
 	mutex_t			simulation_status; // faut il terminer le diner ou non ?
-	mutex_t			meal;
-	mutex_t			time;
+	mutex_t			meal; //enregistrement du dernier repas
+	mutex_t			time; //toucher a start_time
 }					t_table;
 
 

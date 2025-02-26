@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 19:19:55 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/25 14:54:39 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/26 12:24:50 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ t_table	init_arg(char **av)
 	dinner.time_to_eat = 0;
 	dinner.time_to_sleep = 0;
 	dinner.start_time = get_time_in_ms(start);
-	//printf("time  = %ld\n", dinner.start_time);
+	// printf("time  = %ld\n", dinner.start_time);
 	if (av[5])
 		dinner.max_nmb_of_meals = 0;
 	else

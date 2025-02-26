@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 15:06:49 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/25 15:29:33 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/26 11:27:05 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	precise_usleep(long usec)
 	struct timeval	time;
 	long			current;
 	long			begin;
+	long			rem;
 
 	gettimeofday(&time, NULL);
 	begin = time.tv_sec * 1000 + time.tv_usec / 1000;
@@ -65,8 +66,11 @@ void	precise_usleep(long usec)
 	{
 		gettimeofday(&time, NULL);
 		current = time.tv_sec * 1000 + time.tv_usec / 1000;
-		if (current - begin < usec)
-			usleep(200);
+		rem = usec - (current - begin);
+		if (rem > 20)
+			usleep(rem / 2);
+		// if (current - begin < usec)
+		// 	usleep(10);
 		else
 			break ;
 	}

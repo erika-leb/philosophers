@@ -6,7 +6,7 @@
 #    By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2025/02/25 11:15:16 by ele-borg         ###   ########.fr        #
+#    Updated: 2025/02/26 12:24:14 by ele-borg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,12 +31,10 @@ OBJ_FILES =	$(OBJ_DIR)/main.o \
 
 NAME = philo
 
-# FLAGS_C = -Wall -Wextra -Werror -pthread -fsanitize=thread -g3 -I.
-FLAGS_C = -Wall -Wextra -Werror -pthread -g3 -I.
+FLAGS_C = -Wall -Wextra -Werror -pthread -fsanitize=thread -g3 -I.
+# FLAGS_C = -Wall -Wextra -Werror -pthread -g3 -I.
 
-# FLAGS_L = -fsanitize=thread
-
-CC = cc
+FLAGS_L = -fsanitize=thread
 
 NAME = philo
 

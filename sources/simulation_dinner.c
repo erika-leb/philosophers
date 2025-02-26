@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 16:33:15 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/25 16:18:37 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:20:49 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ void	safe_write(t_philo *philo, int id, char *s)
 {
 	struct timeval	time;
 	long			current;
+	static bool		flag = true;
 
+	if (flag == false)
+		return ;
 	pthread_mutex_lock(&philo->table->safe_write);
 	gettimeofday(&time, NULL);
 	current = get_time_in_ms(time);
@@ -24,9 +27,10 @@ void	safe_write(t_philo *philo, int id, char *s)
 	printf("%ld ", current - long_get(&philo->table->time, &philo->table->start_time));
 	printf("%d ", id);
 	printf("%s\n", s);
+	if (strcmp(s, "has died") == 0)
+		flag = false;
 	pthread_mutex_unlock(&philo->table->safe_write);
 }
-
 
 void	*routine(void *philo)
 {
@@ -34,16 +38,19 @@ void	*routine(void *philo)
 	struct		timeval	time;
 
 	p = (t_philo *) philo;
-	//printf("table->end_simulation 6 = %d\n", p->table->end_simulation);
-	while (bool_get(&p->table->time, &p->table->start) == false)
-		precise_usleep(30);
-	// perror("jingle");
-	if (p->name % 2 != 0)
+	while (bool_get(&p->table->begin, &p->table->start) == false)
+		// usleep(30);
+	{
+			precise_usleep(25);
+	}
+	if (p->name % 2 == 0)
 		precise_usleep(30);
 	while (1)
 	{
+		// perror("coco bango");
+		// printf("time 3 = %ld\n", p->table->start_time);
 		// printf("table->end_simulation 5 = %d\n", p-> table->end_simulation);
-		if (bool_get(&p->table->simulation_status, &p->table->end_simulation) == false)
+		if (bool_get(&p->table->simulation_status, &p->table->end_simulation) == true)
 			break ;
 		// perror("hola");
 		pthread_mutex_lock(p->fst_fork);
@@ -89,23 +96,20 @@ void	*control(void *dinner)
 	struct	timeval	time;
 
 	table = (t_table *) dinner;
-	i = -1;
-	// perror("que lo haga bien");
-	gettimeofday(&time, NULL);
-	// dinner->start_time = get_time_in_ms(start);
-	long_set(&table->time, &table->start_time, get_time_in_ms(time));
-	while (++i < table->nmb_of_philo)
-		long_set(&table->meal, &table->philos[i].last_meal, get_time_in_ms(time));
-	// table->start_time = get_time_in_ms(start);
-	bool_set(&table->begin, &table->start, true);
-	// printf("DEBUG: start mis à true !\n");
-	// printf("time = %ld\n", table->start_time);
-	precise_usleep(500);
+	// i = -1;
+	// gettimeofday(&time, NULL);
+	// long_set(&table->time, &table->start_time, get_time_in_ms(time));
+	// while (++i < table->nmb_of_philo)
+	// {
+	// 	long_set(&table->meal, &table->philos[i].last_meal, get_time_in_ms(time));
+	// 	// printf("last -meal philo %d = %ld\n", i, table->philos[i].last_meal);
+	// }
+	// bool_set(&table->begin, &table->start, true);
+	// perror("partez");
+	// printf("time 5 = %ld\n", table->start_time);
 	i = 0;
-//	printf("table->end_simulation = %d\n", table->end_simulation);
 	while (table->end_simulation == false)
 	{
-		// perror("tesst");
 		gettimeofday(&time, NULL);
 		if (get_time_in_ms(time) - long_get(&table->meal, &table->philos[i].last_meal) > table->time_to_die)
 		{
@@ -116,39 +120,38 @@ void	*control(void *dinner)
 			i = 0;
 		else
 			i++;
-		// perror("perro");
 	}
-	// perror("caliente");
+	// printf("time 1 = %ld\n", table->start_time);
 	return (NULL);
 }
 
 int	init_dinner(t_table *dinner)
 {
 	int	i;
-	// struct timeval start;
+	struct timeval start;
 
 	i = 0;
 	if (init_mutex(dinner) == -1)
-	{
-		// free(dinner->forks);
-		// free(dinner->philos);
 		return (free(dinner->forks), free(dinner->philos), -1);
-	}
-	//printf("end_simulation 4 = %d\n", dinner->end_simulation);
-	// initialiser les mutex et les fermer dans exit
-	// perror("se hace la dificil");
 	while (i < dinner->nmb_of_philo)
 	{
-		// perror("con esa cara");
 		if (pthread_create(&dinner->philos[i].id, NULL, routine, (void *)&dinner->philos[i]))
 			return (exit_error("philo: error pthread creation", dinner), -1);
-		// perror("mami");
 		i++;
 	}
-	// perror("asi te dare");
 	if (pthread_create(&dinner->monitor, NULL, control, (void *)dinner))
 		return (exit_error("philo: error pthread creation", dinner), -1);
-	// i = -1;
+
+	i = -1;
+	gettimeofday(&start, NULL);
+	long_set(&dinner->time, &dinner->start_time, get_time_in_ms(start));
+	while (++i < dinner->nmb_of_philo)
+	{
+		long_set(&dinner->meal, &dinner->philos[i].last_meal, get_time_in_ms(start));
+		// printf("last -meal philo %d = %ld\n", i, dinner->philos[i].last_meal);
+	}
+	bool_set(&dinner->begin, &dinner->start, true);
+
 	// gettimeofday(&start, NULL);
 	// // dinner->start_time = get_time_in_ms(start);
 	// long_set(&dinner->time, &dinner->start_time, get_time_in_ms(start));
@@ -156,6 +159,7 @@ int	init_dinner(t_table *dinner)
 	// 	long_set(&dinner->meal, &dinner->philos[i].last_meal, get_time_in_ms(start));
 	// // dinner->start_time = get_time_in_ms(start);
 	// bool_set(&dinner->begin, &dinner->start, true);
+
 	i = 0;
 	while(i < dinner->nmb_of_philo)
 	{
@@ -165,6 +169,5 @@ int	init_dinner(t_table *dinner)
 	}
 	if (pthread_join(dinner->monitor, NULL))
 		return (exit_error("philo: error pthread join", dinner), -1);
-	// perror("nadie se entera");
 	return (0);
 }
