@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 15:11:22 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/25 18:36:26 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:49:28 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ int	init_table(t_table *dinner)
 		dinner->philos[i].table = dinner;
 		dinner->philos[i].dead = false;
 		dinner->philos[i].last_meal = dinner->start_time;
+		dinner->philos[i].nb_meal = 0;
+		dinner->philos[i].full = false;
 		// printf("st meal = %ld\n", dinner->philos[i].last_meal);
 		i++;
 	}
@@ -119,6 +121,11 @@ int	init_mutex(t_table *dinner)
 		return (-1);
 	}
 	if (pthread_mutex_init(&dinner->time, NULL) != 0)
+	{
+		write(2, "philo: Erreur pthread_mutex_init\n", 34);
+		return (-1);
+	}
+	if (pthread_mutex_init(&dinner->full_philos, NULL) != 0)
 	{
 		write(2, "philo: Erreur pthread_mutex_init\n", 34);
 		return (-1);

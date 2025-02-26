@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:41:37 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/26 14:23:29 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:49:09 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ typedef struct s_philo
 	t_table			*table;
 	bool			dead;
 	long			last_meal;
+	long			nb_meal;
+	bool			full;
 }					t_philo;
 
 typedef struct s_table
@@ -43,7 +45,7 @@ typedef struct s_table
 	long			time_to_die;
 	long			time_to_eat;
 	long			time_to_sleep;
-	int				max_nmb_of_meals; // -1 si rien
+	long			max_nmb_of_meals; // -1 si rien
 	long			start_time;
 	mutex_t			*forks;
 	t_philo			*philos;
@@ -55,6 +57,7 @@ typedef struct s_table
 	mutex_t			simulation_status; // faut il terminer le diner ou non ?
 	mutex_t			meal; //enregistrement du dernier repas
 	mutex_t			time; //toucher a start_time
+	mutex_t			full_philos;
 }					t_table;
 
 

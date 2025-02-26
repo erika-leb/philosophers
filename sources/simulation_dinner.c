@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 16:33:15 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/26 14:20:49 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:05:55 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,9 @@ void	*routine(void *philo)
 		long_set(&p->table->meal, &p->last_meal, get_time_in_ms(time));
 		//p->last_meal = time.tv_sec * 1000 + time.tv_usec / 1000; //ou est ce que je le mets precisement ?
 		safe_write(p, p->name, "is eating");
+		pthread_mutex_lock(&p->table->full_philos);
+		(p->nb_meal)++;
+		pthread_mutex_unlock(&p->table->full_philos);
 		precise_usleep(p->table->time_to_eat);
 		pthread_mutex_unlock(p->fst_fork);
 		pthread_mutex_unlock(p->scd_fork);
@@ -94,6 +97,7 @@ void	*control(void *dinner)
 	t_table	*table;
 	int		i;
 	struct	timeval	time;
+	int		all_full;
 
 	table = (t_table *) dinner;
 	// i = -1;
@@ -108,6 +112,7 @@ void	*control(void *dinner)
 	// perror("partez");
 	// printf("time 5 = %ld\n", table->start_time);
 	i = 0;
+	all_full = 0;
 	while (table->end_simulation == false)
 	{
 		gettimeofday(&time, NULL);
@@ -116,8 +121,18 @@ void	*control(void *dinner)
 			bool_set(&table->simulation_status, &table->end_simulation, true);
 			safe_write(&table->philos[i], table->philos[i].name, "has died");
 		}
+		if (long_get(&table->full_philos, &table->philos[i].nb_meal) >= table->max_nmb_of_meals)
+			all_full++;
 		if (i == table->nmb_of_philo - 1)
-			i = 0;
+		{
+			if (all_full == table->nmb_of_philo - 1)
+				bool_set(&table->simulation_status, &table->end_simulation, true);
+			else
+			{
+				all_full = 0;
+				i = 0;
+			}
+		}
 		else
 			i++;
 	}
