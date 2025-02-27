@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:41:37 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/26 20:03:33 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/27 13:55:52 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,11 @@ int			init_table(t_table *dinner);
 int			init_mutex(t_table *dinner);
 int			init_dinner(t_table *dinner);
 
+//libft
+int			ft_sizeint(long nb);
+char		*ft_ltoa(long n);
+void		ft_putstr_fd(char *s);
+
 //main
 void		*routine(void *philo);
 
@@ -88,6 +93,7 @@ long		long_get(mutex_t *mutex, long *to_get);
 void		safe_write(t_philo *philo, int id, char *s);
 
 //utils
+void		ft_putstr_fd(char *s);
 void		exit_error(char *s, t_table *dinner);
 void		free_all(t_table *dinner);
 long		get_time_in_ms(struct timeval time);

@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 15:11:22 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/26 16:37:11 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:50:15 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,18 @@ int	init_forks(t_table *dinner)
 
 void	init_philo(t_philo *philo, t_table *table, int i)
 {
-	if (i % 2 == 0) //philo impair om commence par la droite
+	if (i % 2 == 0) //philo impair om commence par la gauche
 	{
+		table->philos[i].fst_fork = &table->forks[i];
 		if (i != 0)
-			table->philos[i].fst_fork = &table->forks[i - 1];
-		else
-			table->philos[i].fst_fork = &table->forks[table->nmb_of_philo - 1];
-		table->philos[i].scd_fork = &table->forks[i];
-	}
-	else //philo pair on commence par la gauche
-	{
-			table->philos[i].fst_fork = &table->forks[i];
 			table->philos[i].scd_fork = &table->forks[i - 1];
+		else
+			table->philos[i].scd_fork = &table->forks[table->nmb_of_philo - 1];
+	}
+	else //philo pair on commence par la droite
+	{
+			table->philos[i].fst_fork = &table->forks[i - 1];
+			table->philos[i].scd_fork = &table->forks[i];
 	}
 	philo->table = table;
 	philo->dead = false;
@@ -57,6 +57,28 @@ void	init_philo(t_philo *philo, t_table *table, int i)
 	philo->nb_meal = 0;
 	philo->full = false;
 }
+
+// void	init_philo(t_philo *philo, t_table *table, int i)
+// {
+// 	if (i % 2 == 0) //philo impair om commence par la droite
+// 	{
+// 		if (i != 0)
+// 			table->philos[i].fst_fork = &table->forks[i - 1];
+// 		else
+// 			table->philos[i].fst_fork = &table->forks[table->nmb_of_philo - 1];
+// 		table->philos[i].scd_fork = &table->forks[i];
+// 	}
+// 	else //philo pair on commence par la gauche
+// 	{
+// 			table->philos[i].fst_fork = &table->forks[i];
+// 			table->philos[i].scd_fork = &table->forks[i - 1];
+// 	}
+// 	philo->table = table;
+// 	philo->dead = false;
+// 	philo->last_meal = table->start_time;
+// 	philo->nb_meal = 0;
+// 	philo->full = false;
+// }
 
 int	init_table(t_table *dinner)
 {

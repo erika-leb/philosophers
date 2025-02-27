@@ -6,7 +6,7 @@
 #    By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2025/02/26 20:02:27 by ele-borg         ###   ########.fr        #
+#    Updated: 2025/02/27 16:18:08 by ele-borg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRC_FILES = ${SRC_DIR}main.c \
 			${SRC_DIR}parsing.c \
 			${SRC_DIR}simulation_dinner.c \
 			${SRC_DIR}utils.c \
+			${SRC_DIR}libft.c \
 
 OBJ_FILES =	$(OBJ_DIR)/main.o \
 			$(OBJ_DIR)/synchronisation.o \
@@ -28,13 +29,14 @@ OBJ_FILES =	$(OBJ_DIR)/main.o \
 			$(OBJ_DIR)/parsing.o \
 			$(OBJ_DIR)/simulation_dinner.o \
 			$(OBJ_DIR)/utils.o \
+			$(OBJ_DIR)/libft.o \
 
 NAME = philo
 
-FLAGS_C = -Wall -Wextra -Werror -pthread -fsanitize=thread -g3 -I.
-# FLAGS_C = -Wall -Wextra -Werror -pthread -g3 -I.
+# FLAGS_C = -Wall -Wextra -Werror -pthread -fsanitize=thread -I.
+FLAGS_C = -Wall -Wextra -Werror -pthread  -I.
 
-FLAGS_L = -fsanitize=thread
+# FLAGS_L = -fsanitize=thread
 
 NAME = philo
 
