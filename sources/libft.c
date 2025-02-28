@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 13:53:30 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/27 14:11:47 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/28 15:45:44 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,11 @@ int	ft_sizeint(long nb)
 char	*ft_ltoa(long n)
 {
 	static char	str[70000];
-	int		s;
-	long	nb;
+	int			s;
+	long		nb;
 
 	nb = (long)n;
 	s = ft_sizeint(nb);
-	// str = malloc((s + 1) * sizeof(char));
-	// if (str == 0)
-	// 	return (NULL);
 	if (nb < 0)
 		nb = nb * -1;
 	str[s] = '\0';
@@ -70,4 +67,14 @@ void	ft_putstr_fd(char *s)
 		write(1, &s[i], 1);
 		i++;
 	}
+}
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return ((unsigned char) s1[i] - (unsigned char) s2[i]);
 }

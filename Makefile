@@ -6,7 +6,7 @@
 #    By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/04 18:23:01 by ele-borg          #+#    #+#              #
-#    Updated: 2025/02/27 16:18:08 by ele-borg         ###   ########.fr        #
+#    Updated: 2025/02/28 13:00:24 by ele-borg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRC_FILES = ${SRC_DIR}main.c \
 			${SRC_DIR}simulation_dinner.c \
 			${SRC_DIR}utils.c \
 			${SRC_DIR}libft.c \
+			${SRC_DIR}monitor.c \
 
 OBJ_FILES =	$(OBJ_DIR)/main.o \
 			$(OBJ_DIR)/synchronisation.o \
@@ -30,6 +31,7 @@ OBJ_FILES =	$(OBJ_DIR)/main.o \
 			$(OBJ_DIR)/simulation_dinner.o \
 			$(OBJ_DIR)/utils.o \
 			$(OBJ_DIR)/libft.o \
+			$(OBJ_DIR)/monitor.o \
 
 NAME = philo
 

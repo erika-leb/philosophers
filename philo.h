@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:41:37 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/27 13:55:52 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/28 15:53:52 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,14 @@
 # include <unistd.h>
 # include <string.h>
 
-# define mutex_t pthread_mutex_t
-
 typedef struct s_table	t_table;
 
 typedef struct s_philo
 {
 	int				name;
 	pthread_t		id;
-	mutex_t			*fst_fork;
-	mutex_t			*scd_fork;
+	pthread_mutex_t	*fst_fork;
+	pthread_mutex_t	*scd_fork;
 	t_table			*table;
 	bool			dead;
 	long			last_meal;
@@ -45,21 +43,21 @@ typedef struct s_table
 	long			time_to_die;
 	long			time_to_eat;
 	long			time_to_sleep;
-	long			max_nmb_of_meals; // -1 si rien
+	long			max_nmb_of_meals;
 	long			start_time;
-	mutex_t			*forks;
+	pthread_mutex_t	*forks;
 	t_philo			*philos;
-	mutex_t			safe_write;
+	pthread_mutex_t	safe_write;
 	pthread_t		monitor;
 	bool			end_simulation;
 	bool			start;
 	bool			flag_write;
-	mutex_t			flag;
-	mutex_t			begin;  //faut il commencer la simulation ?
-	mutex_t			simulation_status; // faut il terminer le diner ou non ?
-	mutex_t			meal; //enregistrement du dernier repas
-	mutex_t			time; //toucher a start_time
-	mutex_t			full_philos;
+	pthread_mutex_t	flag;
+	pthread_mutex_t	begin;
+	pthread_mutex_t	simulation_status;
+	pthread_mutex_t	meal;
+	pthread_mutex_t	time;
+	pthread_mutex_t	full_philos;
 }					t_table;
 
 //init
@@ -72,9 +70,13 @@ int			init_dinner(t_table *dinner);
 int			ft_sizeint(long nb);
 char		*ft_ltoa(long n);
 void		ft_putstr_fd(char *s);
+int			ft_strcmp(char *s1, char *s2);
 
 //main
 void		*routine(void *philo);
+
+//monitor
+void		*control(void *dinner);
 
 //parsing
 long		ft_atol(char *s);
@@ -82,14 +84,13 @@ int			parsing(char **av, t_table *dinner);
 t_table		init_arg(char **av);
 
 //simulation_dinner
-void		*control(void *dinner);
 void		*routine(void *philo);
 
 //synchronisation
-void		bool_set(mutex_t *mutex, bool *to_set, bool value);
-bool		bool_get(mutex_t *mutex, bool *to_get);
-void		long_set(mutex_t *mutex, long *to_set, long value);
-long		long_get(mutex_t *mutex, long *to_get);
+void		bool_set(pthread_mutex_t *mutex, bool *to_set, bool value);
+bool		bool_get(pthread_mutex_t *mutex, bool *to_get);
+void		long_set(pthread_mutex_t *mutex, long *to_set, long value);
+long		long_get(pthread_mutex_t *mutex, long *to_get);
 void		safe_write(t_philo *philo, int id, char *s);
 
 //utils

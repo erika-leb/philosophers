@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 19:19:55 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/26 16:36:53 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/28 15:46:40 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,15 @@ int	parsing(char **av, t_table *dinner)
 
 t_table	init_arg(char **av)
 {
-	struct timeval start;
+	struct timeval	start;
+	t_table			dinner;
 
 	gettimeofday(&start, NULL);
-	t_table	dinner;
 	dinner.nmb_of_philo = 0;
 	dinner.time_to_die = 0;
 	dinner.time_to_eat = 0;
 	dinner.time_to_sleep = 0;
 	dinner.start_time = get_time_in_ms(start);
-	// printf("time  = %ld\n", dinner.start_time);
 	if (av[5])
 		dinner.max_nmb_of_meals = 0;
 	else
@@ -85,6 +84,5 @@ t_table	init_arg(char **av)
 	dinner.end_simulation = false;
 	dinner.start = false;
 	dinner.flag_write = true;
-	// printf("simul = %d\n", dinner.end_simulation);
 	return (dinner);
 }

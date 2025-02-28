@@ -6,7 +6,7 @@
 /*   By: ele-borg <ele-borg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 15:06:49 by ele-borg          #+#    #+#             */
-/*   Updated: 2025/02/27 13:55:45 by ele-borg         ###   ########.fr       */
+/*   Updated: 2025/02/28 15:48:27 by ele-borg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	free_all(t_table *dinner)
 	free(dinner->philos);
 }
 
-void exit_error(char *s, t_table *dinner)
+void	exit_error(char *s, t_table *dinner)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	printf("%s\n", s);
@@ -53,35 +53,11 @@ long	get_time_in_ms(struct timeval time)
 	return (res);
 }
 
-// void	precise_usleep(long usec)
-// {
-// 	struct timeval	time;
-// 	long			current;
-// 	long			begin;
-// 	long			rem;
-
-// 	gettimeofday(&time, NULL);
-// 	begin = time.tv_sec * 1000 + time.tv_usec / 1000;
-// 	while (1)
-// 	{
-// 		gettimeofday(&time, NULL);
-// 		current = time.tv_sec * 1000 + time.tv_usec / 1000;
-// 		rem = usec - (current - begin);
-// 		if (rem > 20)
-// 			usleep(rem / 2);
-// 		// if (current - begin < usec)
-// 		// 	usleep(10);
-// 		else
-// 			break ;
-// 	}
-// }
-
 void	precise_usleep(long usec)
 {
 	struct timeval	time;
 	long			current;
 	long			begin;
-	// long			rem;
 
 	gettimeofday(&time, NULL);
 	begin = time.tv_sec * 1000 + time.tv_usec / 1000;
@@ -93,13 +69,5 @@ void	precise_usleep(long usec)
 			usleep(500);
 		else
 			break ;
-		// rem = usec - (current - begin);
-		// if (rem > 20)
-		// 	usleep(rem / 2);
-		// // if (current - begin < usec)
-		// // 	usleep(10);
-		// else
-		// 	break ;
 	}
 }
-
